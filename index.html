@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Request Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="email"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            height: 100px;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .subfield {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Data Request Form</h1>
+
+    <form>
+        <label for="name">ชื่อผู้ขอข้อมูล (Requester Name):</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">อีเมลผู้ขอข้อมูล (Requester Email):</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="department">แผนก/หน่วยงาน (Department/Unit):</label>
+        <input type="text" id="department" name="department" required>
+
+        <label for="data-type">ประเภทข้อมูลที่ต้องการ (Type of Data Requested):</label>
+        <select id="data-type" name="data-type" required onchange="showFields()">
+            <option value="">-- เลือกประเภทข้อมูล --</option>
+            <option value="clinical">Clinical Data</option>
+            <option value="quality">Quality/HA Data</option>
+            <option value="management">Management Data</option>
+            <option value="other">Other</option>
+        </select>
+
+        <!-- Clinical Data Fields -->
+        <div id="clinical-fields" class="hidden">
+            <label>ข้อมูลประชากรผู้ป่วย (Patient Demographics):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Age"> อายุ (Age)</label>
+                <label><input type="checkbox" name="data[]" value="Gender"> เพศ (Gender)</label>
+                <label><input type="checkbox" name="data[]" value="Ethnicity"> เชื้อชาติ (Ethnicity)</label>
+                <label><input type="checkbox" name="data[]" value="Medical History"> ประวัติการรักษา (Medical History)</label>
+                <label><input type="checkbox" name="data[]" value="Lifestyle Information"> ข้อมูลด้านพฤติกรรมและการใช้ชีวิต (Lifestyle Information)</label>
+            </div>
+
+            <label>ข้อมูลการวินิจฉัย (Diagnostic Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Disease Diagnosis"> การวินิจฉัยโรค (Disease Diagnosis)</label>
+                <label><input type="checkbox" name="data[]" value="Laboratory Results"> ผลการตรวจทางห้องปฏิบัติการ (Laboratory Results)</label>
+                <label><input type="checkbox" name="data[]" value="Radiology Results"> ผลการตรวจทางรังสี (Radiology Results)</label>
+                <label><input type="checkbox" name="data[]" value="Differential Diagnosis"> การวินิจฉัยแยกโรค (Differential Diagnosis)</label>
+            </div>
+
+            <label>ข้อมูลการรักษา (Treatment Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Medication Usage"> การใช้ยา (Medication Usage)</label>
+                <label><input type="checkbox" name="data[]" value="Surgical Data"> ข้อมูลการผ่าตัด (Surgical Data)</label>
+                <label><input type="checkbox" name="data[]" value="Rehabilitation Services"> ข้อมูลการให้บริการฟื้นฟู (Rehabilitation Services)</label>
+                <label><input type="checkbox" name="data[]" value="Physical Therapy"> การบำบัดทางกายภาพและการฟื้นฟูสมรรถภาพ (Physical Therapy)</label>
+                <label><input type="checkbox" name="data[]" value="Treatment Outcomes"> ผลการรักษา (Treatment Outcomes)</label>
+            </div>
+
+            <label>ข้อมูลการดูแลผู้ป่วย (Patient Care Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Readmission Rates"> อัตราการเข้ารักษาซ้ำ (Readmission Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Pain Management"> การจัดการความเจ็บปวด (Pain Management)</label>
+                <label><input type="checkbox" name="data[]" value="Outcome Measures"> การประเมินผลลัพธ์การรักษา (Outcome Measures)</label>
+                <label><input type="checkbox" name="data[]" value="Length of Stay"> Length of Stay (ระยะเวลาการพักรักษาตัวในโรงพยาบาล)</label>
+            </div>
+
+            <label>ข้อมูลทางระบาดวิทยา (Epidemiological Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Prevalence"> ความชุกของโรค (Prevalence)</label>
+                <label><input type="checkbox" name="data[]" value="Incidence Rates"> อัตราการเกิดใหม่ (Incidence Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Risk Factors"> ปัจจัยเสี่ยง (Risk Factors)</label>
+                <label><input type="checkbox" name="data[]" value="Cohort Studies"> ข้อมูลจากการศึกษากลุ่มประชากร (Cohort Studies)</label>
+            </div>
+
+            <label>ข้อมูลผลการประเมินและการทดสอบ (Assessment and Test Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Clinical Assessments"> ผลการประเมินทางคลินิก (Clinical Assessments)</label>
+                <label><input type="checkbox" name="data[]" value="Performance Tests"> การทดสอบสมรรถภาพ (Performance Tests)</label>
+                <label><input type="checkbox" name="data[]" value="Survey Data"> ข้อมูลจากการสอบถาม (Survey Data)</label>
+            </div>
+
+            <label>ข้อมูลสถิติและเชิงสรุป (Statistical and Summary Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Aggregate Statistics"> ข้อมูลสถิติโดยรวม (Aggregate Statistics)</label>
+                <label><input type="checkbox" name="data[]" value="Survival Statistics"> สถิติการเสียชีวิตและการรอดชีวิต (Survival Statistics)</label>
+                <label><input type="checkbox" name="data[]" value="Statistical Analysis Data"> ข้อมูลการวิเคราะห์ทางสถิติ (Statistical Analysis Data)</label>
+                <label><input type="checkbox" name="data[]" value="Trial Summary Data"> ข้อมูลสรุปการทดลอง (Trial Summary Data)</label>
+            </div>
+
+            <label>ข้อมูลการวิจัยเฉพาะทาง (Specialized Research Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Clinical Trial Data"> ข้อมูลจากการทดลองทางคลินิก (Clinical Trial Data)</label>
+                <label><input type="checkbox" name="data[]" value="Case Study Data"> ข้อมูลจากการศึกษากรณีศึกษา (Case Study Data)</label>
+                <label><input type="checkbox" name="data[]" value="Genetic Analysis Data"> ข้อมูลจากการวิเคราะห์ทางพันธุกรรม (Genetic Analysis Data)</label>
+                <label><input type="checkbox" name="data[]" value="Organ System Studies"> ข้อมูลจากการศึกษาระบบอวัยวะ (Organ System Studies)</label>
+            </div>
+        </div>
+
+        <!-- Quality/HA Data Fields -->
+        <div id="quality-fields" class="hidden">
+            <label>ข้อมูลอุบัติการณ์ (Incidence Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Complication Rates"> อัตราภาวะแทรกซ้อน (Complication Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Infection Rates"> อัตราการติดเชื้อ (Infection Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Incident Reports"> การรายงานอุบัติการณ์ (Incident Reports)</label>
+            </div>
+
+            <label>ข้อมูลการดูแลผู้ป่วย (Patient Care Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Readmission Rates"> อัตราการเข้ารักษาซ้ำ (Readmission Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Pain Management"> การจัดการความเจ็บปวด (Pain Management)</label>
+                <label><input type="checkbox" name="data[]" value="Outcome Measures"> การประเมินผลลัพธ์การรักษา (Outcome Measures)</label>
+                <label><input type="checkbox" name="data[]" value="Length of Stay"> Length of Stay (ระยะเวลาการพักรักษาตัวในโรงพยาบาล)</label>
+            </div>
+
+            <label>ข้อมูลการปฏิบัติตามมาตรฐาน (Compliance Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Clinical Practice Guidelines Compliance"> การปฏิบัติตามแนวทางการรักษา (Clinical Practice Guidelines Compliance)</label>
+                <label><input type="checkbox" name="data[]" value="Standards Audits"> การตรวจสอบและประเมินมาตรฐาน (Standards Audits)</label>
+            </div>
+
+            <label>ข้อมูลการประเมินคุณภาพ (Quality Assessment Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Service Quality Assessments"> การประเมินคุณภาพบริการ (Service Quality Assessments)</label>
+                <label><input type="checkbox" name="data[]" value="Process Measures"> ข้อมูลการประเมินกระบวนการ (Process Measures)</label>
+            </div>
+
+            <label>ข้อมูลการใช้ทรัพยากร (Resource Utilization Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Medication Utilization"> การใช้ยา (Medication Utilization)</label>
+                <label><input type="checkbox" name="data[]" value="Medical Resource Utilization"> การใช้ทรัพยากรทางการแพทย์ (Medical Resource Utilization)</label>
+                <label><input type="checkbox" name="data[]" value="Staff Time Utilization"> การใช้เวลาของบุคลากร (Staff Time Utilization)</label>
+            </div>
+
+            <label>ข้อมูลการพัฒนาคุณภาพ (Quality Improvement Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Quality Improvement Projects"> โครงการพัฒนาคุณภาพ (Quality Improvement Projects)</label>
+                <label><input type="checkbox" name="data[]" value="Performance Reviews"> การทบทวนผลการดำเนินงาน (Performance Reviews)</label>
+            </div>
+
+            <label>ข้อมูลการวิเคราะห์ความเสี่ยง (Risk Management Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Risk Management Reports"> การจัดการความเสี่ยง (Risk Management Reports)</label>
+                <label><input type="checkbox" name="data[]" value="Risk Assessments"> การประเมินความเสี่ยง (Risk Assessments)</label>
+            </div>
+
+            <label>ข้อมูลสำหรับการรับรองมาตรฐาน (Accreditation Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Accreditation Preparation Data"> การเตรียมการรับรองมาตรฐาน (Accreditation Preparation Data)</label>
+                <label><input type="checkbox" name="data[]" value="Post-Accreditation Audits"> การตรวจสอบหลังรับรองมาตรฐาน (Post-Accreditation Audits)</label>
+            </div>
+
+            <label>ข้อมูลด้านความปลอดภัย (Patient Safety Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Fall Prevention Data"> การป้องกันการลื่นล้ม (Fall Prevention Data)</label>
+                <label><input type="checkbox" name="data[]" value="Pressure Ulcer Prevention"> การป้องกันการเกิดแผลกดทับ (Pressure Ulcer Prevention)</label>
+            </div>
+        </div>
+
+        <!-- Management Data Fields -->
+        <div id="management-fields" class="hidden">
+            <label>ข้อมูลการดำเนินงานและประสิทธิภาพ (Operational and Performance Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Bed Occupancy Rate"> การใช้เตียงผู้ป่วย (Bed Occupancy Rate)</label>
+                <label><input type="checkbox" name="data[]" value="Waiting Times"> ระยะเวลาการรอคอย (Waiting Times)</label>
+                <label><input type="checkbox" name="data[]" value="Admission Rates"> อัตราการเข้ารับการรักษา (Admission Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Discharge Rates"> อัตราการปล่อยตัว (Discharge Rates)</label>
+                <label><input type="checkbox" name="data[]" value="Outpatient Visit Rates"> อัตราการใช้บริการผู้ป่วยนอก (Outpatient Visit Rates)</label>
+            </div>
+
+            <label>ข้อมูลด้านการเงินและบัญชี (Financial and Accounting Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Total Revenue"> รายได้รวม (Total Revenue)</label>
+                <label><input type="checkbox" name="data[]" value="Total Expenses"> ค่าใช้จ่ายรวม (Total Expenses)</label>
+                <label><input type="checkbox" name="data[]" value="Profit or Loss"> กำไรหรือขาดทุน (Profit or Loss)</label>
+                <label><input type="checkbox" name="data[]" value="Financial Ratios"> อัตราส่วนทางการเงิน (Financial Ratios)</label>
+                <label><input type="checkbox" name="data[]" value="Billing and Collections"> การเรียกเก็บเงินและการชำระเงิน (Billing and Collections)</label>
+            </div>
+
+            <label>ข้อมูลด้านบุคลากร (Human Resources Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Total Staff"> จำนวนบุคลากรทั้งหมด (Total Staff)</label>
+                <label><input type="checkbox" name="data[]" value="Staff Turnover Rate"> การหมุนเวียนบุคลากร (Staff Turnover Rate)</label>
+                <label><input type="checkbox" name="data[]" value="Working Hours"> ชั่วโมงการทำงาน (Working Hours)</label>
+                <label><input type="checkbox" name="data[]" value="Staff Productivity"> ประสิทธิภาพของบุคลากร (Staff Productivity)</label>
+            </div>
+
+            <label>ข้อมูลเชิงกลยุทธ์และการพัฒนา (Strategic and Development Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="SWOT Analysis"> การวิเคราะห์ SWOT (SWOT Analysis)</label>
+                <label><input type="checkbox" name="data[]" value="Revenue and Expense Forecasting"> การคาดการณ์รายได้และค่าใช้จ่าย (Revenue and Expense Forecasting)</label>
+                <label><input type="checkbox" name="data[]" value="Investment Projects"> โครงการลงทุน (Investment Projects)</label>
+                <label><input type="checkbox" name="data[]" value="Market Analysis"> การวิเคราะห์ตลาด (Market Analysis)</label>
+            </div>
+
+            <label>ข้อมูลเกี่ยวกับการบริการและความพึงพอใจ (Service and Patient Satisfaction Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Patient Satisfaction"> ความพึงพอใจของผู้ป่วย (Patient Satisfaction)</label>
+                <label><input type="checkbox" name="data[]" value="Complaints and Compliments"> ข้อร้องเรียนและคำชมเชย (Complaints and Compliments)</label>
+                <label><input type="checkbox" name="data[]" value="Service Quality Assessments"> การประเมินคุณภาพบริการ (Service Quality Assessments)</label>
+            </div>
+
+            <label>ข้อมูลสถิติและการวิเคราะห์เชิงสรุป (Statistical and Summary Data):</label>
+            <div class="subfield">
+                <label><input type="checkbox" name="data[]" value="Patient Statistics"> ข้อมูลสถิติด้านผู้ป่วย (Patient Statistics)</label>
+                <label><input type="checkbox" name="data[]" value="Financial Statistics"> ข้อมูลสถิติด้านการเงิน (Financial Statistics)</label>
+                <label><input type="checkbox" name="data[]" value="Trend Analysis"> การวิเคราะห์แนวโน้ม (Trend Analysis)</label>
+            </div>
+        </div>
+
+        <!-- Other Fields -->
+        <div id="other-fields" class="hidden">
+            <label for="other-details">รายละเอียดเพิ่มเติม (Additional Details):</label>
+            <textarea id="other-details" name="other-details"></textarea>
+        </div>
+
+        <label for="start-date">วันที่เริ่มต้น (Start Date):</label>
+        <input type="text" id="start-date" name="start-date" placeholder="dd/mm/yyyy" required>
+
+        <label for="end-date">วันที่สิ้นสุด (End Date):</label>
+        <input type="text" id="end-date" name="end-date" placeholder="dd/mm/yyyy" required>
+
+        <label for="priority">ความเร่งด่วน (Priority):</label>
+        <select id="priority" name="priority" required>
+            <option value="urgent">เร่งด่วน (ภายใน 24 ชั่วโมง)</option>
+            <option value="normal">ปกติ (ภายใน 3-5 วัน)</option>
+            <option value="not-urgent">ไม่เร่งด่วน (ภายใน 1-2 สัปดาห์)</option>
+            <option value="other">อื่นๆ (ระบุวันที่ที่ต้องการ)</option>
+        </select>
+
+        <button type="submit">ส่งคำขอข้อมูล</button>
+    </form>
+
+    <script>
+        function showFields() {
+            var dataType = document.getElementById("data-type").value;
+            document.getElementById("clinical-fields").classList.add("hidden");
+            document.getElementById("quality-fields").classList.add("hidden");
+            document.getElementById("management-fields").classList.add("hidden");
+            document.getElementById("other-fields").classList.add("hidden");
+
+            if (dataType === "clinical") {
+                document.getElementById("clinical-fields").classList.remove("hidden");
+            } else if (dataType === "quality") {
+                document.getElementById("quality-fields").classList.remove("hidden");
+            } else if (dataType === "management") {
+                document.getElementById("management-fields").classList.remove("hidden");
+            } else if (dataType === "other") {
+                document.getElementById("other-fields").classList.remove("hidden");
+            }
+        }
+    </script>
+
+</body>
+</html>
